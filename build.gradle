@@ -12,7 +12,6 @@ repositories {
 dependencies {
     testImplementation (
             "com.codeborne:selenide:6.19.1",
-            "com.github.javafaker:javafaker:1.0.2",
             "org.junit.jupiter:junit-jupiter:5.9.3")
     testRuntimeOnly(
             "org.junit.jupiter:junit-jupiter:5.9.3",
@@ -21,5 +20,35 @@ dependencies {
 }
 
 test {
+    testLogging {
+        events "started", "passed", "skipped", "failed"
+    }
+    useJUnitPlatform {
+        includeTags 'SMOKE'
+        excludeTags 'REGRESS'
+    }
+}
+
+test {
     useJUnitPlatform()
+}
+
+tasks.register("smokeTests", Test) {
+    testLogging {
+        events "started", "passed", "skipped", "failed"
+    }
+    useJUnitPlatform {
+        includeTags 'SMOKE'
+    }
+    mustRunAfter check
+}
+
+tasks.register("regressTests", Test) {
+    testLogging {
+        events "started", "passed", "skipped", "failed"
+    }
+    useJUnitPlatform {
+        includeTags 'REGRESS', 'SMOKE'
+    }
+    mustRunAfter check
 }

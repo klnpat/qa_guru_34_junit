@@ -59,6 +59,7 @@ public class KassirMainPageParametrizedTests extends TestBase{
 
     @MethodSource
     @ParameterizedTest(name = "После нажатия на город {0} открывается ссылка с адресом {1}")
+    @Tag("SMOKE")
     void linksWithCitiesShouldOpenCorrectLinkUsingMethodSourceProvider(String mainCitiesNames, String expectedLink) {
         $("#city-select-button").click();
         $(".city-container-wrapper").find(withText(mainCitiesNames)).click();
